@@ -15,14 +15,14 @@ export class AppController {
 
   @Get('manager')
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(UserRole.MANAGER)
+  @Roles(UserRole.USER, UserRole.MANAGER)
   getManagerContent() {
     return 'This is a restricted area for MANAGERs only!';
   }
 
   @Get('user')
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(UserRole.USER, UserRole.MANAGER, UserRole.ADMIN)
+  @Roles(UserRole.MANAGER, UserRole.ADMIN)
   getUserContent() {
     return 'This is a restricted area for USERS, MANAGERS, and ADMINs!';
   }
