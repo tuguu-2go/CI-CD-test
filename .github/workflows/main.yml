@@ -8,6 +8,11 @@ on:
   schedule:
     - cron: '0 0 * * 0'  # Run weekly on Sundays at midnight
 
+permissions:
+  security-events: write
+  actions: read
+  contents: read
+
 jobs:
   security_scan:
     name: Security Scan
@@ -15,7 +20,7 @@ jobs:
     
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
     - name: Run mock security scan
       run: |
@@ -73,6 +78,6 @@ jobs:
         EOF
 
     - name: Upload SARIF file
-      uses: github/codeql-action/upload-sarif@v2
+      uses: github/codeql-action/upload-sarif@v3
       with:
         sarif_file: results.sarif
