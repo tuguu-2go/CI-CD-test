@@ -25,12 +25,10 @@ jobs:
     - name: Mock Install dependencies
       run: |
         echo "Running npm install..."
-        sleep 2  # Simulate installation time
 
     - name: Mock Build project
       run: |
         echo "Running npm run build..."
-        sleep 3  # Simulate build time
 
   unit_test:
     name: Unit Test
@@ -44,12 +42,10 @@ jobs:
     - name: Mock Install dependencies
       run: |
         echo "Running npm install..."
-        sleep 2  # Simulate installation time
 
     - name: Mock Run unit tests
       run: |
         echo "Running npm run test..."
-        sleep 4  # Simulate test duration
 
   deploy_staging:
     name: Deploy Staging
@@ -63,7 +59,6 @@ jobs:
     - name: Mock Deploy to staging
       run: |
         echo "Deploying to staging environment..."
-        sleep 3  # Simulate deployment time
 
   pentest:
     name: Pentest
@@ -77,11 +72,8 @@ jobs:
     - name: Run mock pentest
       run: |
         echo "Running API pentest..."
-        sleep 1
         echo "Checking input validation..."
-        sleep 1
         echo "Checking authorization..."
-        sleep 1
         echo "Vulnerability found: Improper authorization handling detected in API endpoint '/api/auth'"
 
     - name: Generate mock SARIF file with Markdown
