@@ -22,11 +22,17 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v3
 
-    - name: Install dependencies
-      run: echo "npm install" # npm install
+    - name: Mock Install dependencies
+      run: |
+        echo "Running npm install..."
+        sleep 2  # Simulate installation time
+        # npm install
 
-    - name: Build project
-      run: echo "npm run build" # npm run build 
+    - name: Mock Build project
+      run: |
+        echo "Running npm run build..."
+        sleep 3  # Simulate build time
+        # npm run build
 
   unit_test:
     name: Unit Test
@@ -37,11 +43,17 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v3
 
-    - name: Install dependencies
-      run: echo "npm install test-deps" # npm install
-      
-    - name: Run unit tests
-      run: echo "npm run test" # npm run test
+    - name: Mock Install dependencies
+      run: |
+        echo "Running npm install..."
+        sleep 2  # Simulate installation time
+        # npm install
+
+    - name: Mock Run unit tests
+      run: |
+        echo "Running npm run test..."
+        sleep 4  # Simulate test duration
+        # npm run test
 
   deploy_staging:
     name: Deploy Staging
@@ -52,8 +64,11 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v3
 
-    - name: Deploy to staging
-      run: echo "Deploying to staging environment..."  # Replace with actual deploy commands
+    - name: Mock Deploy to staging
+      run: |
+        echo "Deploying to staging environment..."
+        sleep 3  # Simulate deployment time
+        # Replace with actual deploy commands
 
   pentest:
     name: Pentest
@@ -66,9 +81,13 @@ jobs:
 
     - name: Run mock pentest
       run: |
-        echo "Running mock pentest..."
-        echo "Simulating penetration test..."
-        sleep 5  # Simulate pentest duration
+        echo "Running API pentest..."
+        sleep 1
+        echo "Checking input validation..."
+        sleep 1
+        echo "Checking authorization..."
+        sleep 1
+        echo "Vulnerability found: Improper authorization handling detected in API endpoint '/api/auth'"
 
     - name: Generate mock SARIF file
       run: |
@@ -84,30 +103,30 @@ jobs:
                   "informationUri": "https://example.com/mock-scanner",
                   "rules": [
                     {
-                      "id": "MOCK001",
+                      "id": "AUTH001",
                       "shortDescription": {
-                        "text": "Potential SQL Injection"
+                        "text": "Improper Authorization Handling"
                       },
-                      "helpUri": "https://example.com/mock-scanner/MOCK001"
+                      "helpUri": "https://example.com/mock-scanner/AUTH001"
                     }
                   ]
                 }
               },
               "results": [
                 {
-                  "ruleId": "MOCK001",
-                  "level": "warning",
+                  "ruleId": "AUTH001",
+                  "level": "error",
                   "message": {
-                    "text": "Potential SQL Injection detected in file 'app.js' at line 42"
+                    "text": "Improper authorization handling detected in API endpoint '/api/auth'"
                   },
                   "locations": [
                     {
                       "physicalLocation": {
                         "artifactLocation": {
-                          "uri": "app.js"
+                          "uri": "src/api/auth.js"
                         },
                         "region": {
-                          "startLine": 42
+                          "startLine": 120
                         }
                       }
                     }
