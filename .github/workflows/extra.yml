@@ -2,9 +2,9 @@ name: Mock Security Workflow
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
   schedule:
     - cron: '0 0 * * 0'  # Run weekly on Sundays at midnight
 
@@ -17,7 +17,7 @@ jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
-    
+
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
@@ -26,19 +26,17 @@ jobs:
       run: |
         echo "Running npm install..."
         sleep 2  # Simulate installation time
-        # npm install
 
     - name: Mock Build project
       run: |
         echo "Running npm run build..."
         sleep 3  # Simulate build time
-        # npm run build
 
   unit_test:
     name: Unit Test
     runs-on: ubuntu-latest
     needs: build
-    
+
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
@@ -47,19 +45,17 @@ jobs:
       run: |
         echo "Running npm install..."
         sleep 2  # Simulate installation time
-        # npm install
 
     - name: Mock Run unit tests
       run: |
         echo "Running npm run test..."
         sleep 4  # Simulate test duration
-        # npm run test
 
   deploy_staging:
     name: Deploy Staging
     runs-on: ubuntu-latest
     needs: unit_test
-    
+
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
@@ -68,13 +64,12 @@ jobs:
       run: |
         echo "Deploying to staging environment..."
         sleep 3  # Simulate deployment time
-        # Replace with actual deploy commands
 
   pentest:
     name: Pentest
     runs-on: ubuntu-latest
     needs: deploy_staging
-    
+
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
@@ -89,7 +84,7 @@ jobs:
         sleep 1
         echo "Vulnerability found: Improper authorization handling detected in API endpoint '/api/auth'"
 
-    - name: Generate mock SARIF file
+    - name: Generate mock SARIF file with Markdown
       run: |
         cat << EOF > results.sarif
         {
@@ -107,7 +102,51 @@ jobs:
                       "shortDescription": {
                         "text": "Improper Authorization Handling"
                       },
-                      "helpUri": "https://example.com/mock-scanner/AUTH001"
+                      "fullDescription": {
+                        "text": "This rule checks for improper handling of authorization in the API."
+                      },
+                      "help": {
+                        "text": "Authorization issues can lead to unauthorized access to sensitive information.",
+                        "markdown": "# Detailed Security Report\n\n" +
+                                    "## Vulnerability: Improper Authorization Handling\n\n" +
+                                    "### Overview\n" +
+                                    "This vulnerability occurs when an API endpoint fails to properly verify a user's authorization level, " +
+                                    "potentially allowing unauthorized access to sensitive data.\n\n" +
+                                    "### Affected File\n" +
+                                    "- **File:** `src/api/auth.js`\n" +
+                                    "- **Line Number:** 120\n\n" +
+                                    "### Severity\n" +
+                                    "- **Security Severity:** High (9.0/10)\n\n" +
+                                    "### Impact\n" +
+                                    "Unauthorized users could gain access to restricted API endpoints, compromising the security of sensitive information.\n\n" +
+                                    "### Steps to Reproduce\n" +
+                                    "1. Send a request to `/api/auth` without valid authorization tokens.\n" +
+                                    "2. Observe the response containing sensitive information.\n\n" +
+                                    "### Suggested Fix\n" +
+                                    "- Implement proper authorization checks using middleware.\n" +
+                                    "- Ensure all API endpoints validate user roles and permissions.\n\n" +
+                                    "### References\n" +
+                                    "- [OWASP Authorization Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html)\n\n" +
+                                    "### Evidence\n" +
+                                    "![Authorization Flaw Screenshot](https://example.com/screenshot.png)\n\n" +
+                                    "### Summary Table\n" +
+                                    "| Property             | Value                |\n" +
+                                    "|----------------------|----------------------|\n" +
+                                    "| **Vulnerability ID** | AUTH001              |\n" +
+                                    "| **Severity**         | High                 |\n" +
+                                    "| **Precision**        | High                 |\n" +
+                                    "| **Tags**             | Security, Authorization |\n\n" +
+                                    "---\n" +
+                                    "For more details on fixing this issue, consult the [full documentation](https://example.com/mock-scanner/AUTH001)."
+                      },
+                      "defaultConfiguration": {
+                        "level": "error"
+                      },
+                      "properties": {
+                        "tags": ["security", "authorization"],
+                        "precision": "high",
+                        "security-severity": "9.0"
+                      }
                     }
                   ]
                 }
