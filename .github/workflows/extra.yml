@@ -118,7 +118,7 @@ jobs:
                   "ruleId": "AUTH001",
                   "level": "error",
                   "message": {
-                    "text": "Improper authorization handling detected in API endpoint '/api/auth'"
+                    "text": "Improper authorization handling detected in API endpoint '/api/auth' and role error"
                   },
                   "locations": [
                     {
