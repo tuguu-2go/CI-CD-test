@@ -86,9 +86,9 @@ jobs:
 
     - name: Generate mock SARIF file with Markdown
       run: |
-        cat << EOF > results.sarif
+        cat << 'EOF' > results.sarif
         {
-          "\$schema": "https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Schemata/sarif-schema-2.1.0.json",
+          "$schema": "https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Schemata/sarif-schema-2.1.0.json",
           "version": "2.1.0",
           "runs": [
             {
