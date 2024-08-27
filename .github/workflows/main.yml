@@ -1,0 +1,78 @@
+name: Mock Security Scan
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  schedule:
+    - cron: '0 0 * * 0'  # Run weekly on Sundays at midnight
+
+jobs:
+  security_scan:
+    name: Security Scan
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Run mock security scan
+      run: |
+        echo "Running mock security scan..."
+        echo "Simulating vulnerability detection..."
+        sleep 5  # Simulate scan duration
+
+    - name: Generate mock SARIF file
+      run: |
+        cat << EOF > results.sarif
+        {
+          "$schema": "https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Schemata/sarif-schema-2.1.0.json",
+          "version": "2.1.0",
+          "runs": [
+            {
+              "tool": {
+                "driver": {
+                  "name": "Mock Security Scanner",
+                  "informationUri": "https://example.com/mock-scanner",
+                  "rules": [
+                    {
+                      "id": "MOCK001",
+                      "shortDescription": {
+                        "text": "Potential SQL Injection"
+                      },
+                      "helpUri": "https://example.com/mock-scanner/MOCK001"
+                    }
+                  ]
+                }
+              },
+              "results": [
+                {
+                  "ruleId": "MOCK001",
+                  "level": "warning",
+                  "message": {
+                    "text": "Potential SQL Injection detected in file 'app.js' at line 42"
+                  },
+                  "locations": [
+                    {
+                      "physicalLocation": {
+                        "artifactLocation": {
+                          "uri": "app.js"
+                        },
+                        "region": {
+                          "startLine": 42
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+        EOF
+
+    - name: Upload SARIF file
+      uses: github/codeql-action/upload-sarif@v2
+      with:
+        sarif_file: results.sarif
