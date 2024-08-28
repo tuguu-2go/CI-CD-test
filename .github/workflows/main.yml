@@ -81,14 +81,14 @@ jobs:
           echo -e "${BOLD}Running API pentest...${NC}"
           echo
           echo -e "+-----------------------+------------------+"
-          echo -e "| ${BOLD}Pentest${NC}                | ${BOLD}Status${NC}           |"
+          echo -e "| ${BOLD}Pentest${NC}               | ${BOLD}Status${NC}           |"
           echo -e "+-----------------------+------------------+"
 
           # Authentication check
-          echo -e "| Authentication        | ${GREEN}✓ Passed${NC}        |"
+          echo -e "| Authentication        | ${GREEN}✓ Passed${NC}         |"
 
           # Authorization check (simulating a failure)
-          echo -e "| Authorization         | ${RED}✗ Failed${NC}        |"
+          echo -e "| Authorization         | ${RED}✗ Failed${NC}         |"
 
           echo -e "+-----------------------+------------------+"
           echo
