@@ -70,11 +70,16 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Run pentest
+        id: run_pentest
         run: |
           echo "Running API pentest..."
           echo "Checking input validation..."
           echo "Checking authorization..."
-          echo "Vulnerability found: Improper authorization handling detected in API endpoint '/api/auth'"
+          if grep -q "Vulnerability found" <(echo "Vulnerability found: Improper authorization handling detected in API endpoint '/api/auth'"); then
+            echo "VULNERABILITY_FOUND=true" >> $GITHUB_OUTPUT
+          else
+            echo "VULNERABILITY_FOUND=false" >> $GITHUB_OUTPUT
+          fi
 
       - name: Generate SARIF file
         run: |
@@ -145,3 +150,9 @@ jobs:
         uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: results.sarif
+
+      - name: Fail if vulnerability found
+        if: steps.run_pentest.outputs.VULNERABILITY_FOUND == 'true'
+        run: |
+          echo "Vulnerability detected. Failing the workflow."
+          exit 1
