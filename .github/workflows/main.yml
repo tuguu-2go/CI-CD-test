@@ -151,8 +151,8 @@ jobs:
         with:
           sarif_file: results.sarif
 
-      - name: Fail if vulnerability found
+      - name: Vulnerability found
         if: steps.run_pentest.outputs.VULNERABILITY_FOUND == 'true'
         run: |
-          echo "Vulnerability detected. Failing the workflow."
+          echo "Vulnerability detected."
           exit 1
