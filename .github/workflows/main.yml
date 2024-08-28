@@ -69,6 +69,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      - name: Script setup
+        run: chmod +x ./scripts/run_pentest.sh ./scripts/generate_sarif.sh
+
       - name: Run Pentest
         id: run_pentest
         run: ./scripts/pentest.sh
