@@ -72,14 +72,34 @@ jobs:
       - name: Run pentest
         id: run_pentest
         run: |
-          echo "Running API pentest..."
-          echo "Checking input validation..."
-          echo "Checking authorization..."
-          if grep -q "Vulnerability found" <(echo "Vulnerability found: Improper authorization handling detected in API endpoint '/api/auth'"); then
-            echo "VULNERABILITY_FOUND=true" >> $GITHUB_OUTPUT
-          else
-            echo "VULNERABILITY_FOUND=false" >> $GITHUB_OUTPUT
-          fi
+          # ANSI color codes
+          GREEN='\033[0;32m'
+          RED='\033[0;31m'
+          NC='\033[0m' # No Color
+          BOLD='\033[1m'
+
+          echo -e "${BOLD}Running API pentest...${NC}"
+          echo
+          echo -e "+-----------------------+------------------+"
+          echo -e "| ${BOLD}Pentest${NC}                | ${BOLD}Status${NC}           |"
+          echo -e "+-----------------------+------------------+"
+
+          # Authentication check
+          echo -e "| Authentication        | ${GREEN}✓ Passed${NC}        |"
+
+          # Authorization check (simulating a failure)
+          echo -e "| Authorization         | ${RED}✗ Failed${NC}        |"
+
+          echo -e "+-----------------------+------------------+"
+          echo
+
+          # Set GitHub output for vulnerability found
+          echo "VULNERABILITY_FOUND=true" >> $GITHUB_OUTPUT
+
+          echo -e "${RED}${BOLD}Vulnerability Details:${NC}"
+          echo -e "Improper authorization handling detected in API endpoint '/app/manager'"
+          echo -e "Unauthorized access to manager's dashboard possible."
+          echo
 
       - name: Generate SARIF file
         run: |
@@ -154,5 +174,5 @@ jobs:
       - name: Vulnerability found
         if: steps.run_pentest.outputs.VULNERABILITY_FOUND == 'true'
         run: |
-          echo "Vulnerability detected."
+          echo -e "\033[0;31m\033[1mVulnerability detected. Failing the workflow.\033[0m"
           exit 1
