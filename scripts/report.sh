@@ -9,7 +9,7 @@ cat << 'EOF' > results.sarif
         "driver": {
           "name": "AI-Driven API Pentesting Platform",
           "version": "1.0.0",
-          "informationUri": "https://example.com/api-pentesting-platform",
+          "informationUri": "example.com/api-pentesting-platform",
           "rules": [
             {
               "id": "API-SEC-001",
@@ -20,7 +20,7 @@ cat << 'EOF' > results.sarif
               "fullDescription": {
                 "text": "The API endpoint allows access to resources belonging to other users of the same privilege level."
               },
-              "helpUri": "https://example.com/api-security/horizontal-privilege-escalation",
+              "helpUri": "example.com/api-security/horizontal-privilege-escalation",
               "properties": {
                 "security-severity": "8.0"
               }
@@ -34,7 +34,7 @@ cat << 'EOF' > results.sarif
               "fullDescription": {
                 "text": "The API endpoint allows access to resources or functions intended for higher privilege levels."
               },
-              "helpUri": "https://example.com/api-security/vertical-privilege-escalation",
+              "helpUri": "example.com/api-security/vertical-privilege-escalation",
               "properties": {
                 "security-severity": "9.0"
               }
@@ -53,7 +53,7 @@ cat << 'EOF' > results.sarif
             {
               "physicalLocation": {
                 "artifactLocation": {
-                  "uri": "https://api.securebank.com/api/v1/users/101/transactions"
+                  "uri": "api.securebank.com/api/v1/users/101/transactions"
                 },
                 "region": {
                   "startLine": 1,
@@ -85,7 +85,7 @@ cat << 'EOF' > results.sarif
             {
               "physicalLocation": {
                 "artifactLocation": {
-                  "uri": "https://api.securebank.com/api/v1/admin/create_account"
+                  "uri": "api.securebank.com/api/v1/admin/create_account"
                 },
                 "region": {
                   "startLine": 1,
@@ -117,7 +117,7 @@ cat << 'EOF' > results.sarif
             {
               "physicalLocation": {
                 "artifactLocation": {
-                  "uri": "https://api.securebank.com/api/v1/admin/users"
+                  "uri": "api.securebank.com/api/v1/admin/users"
                 },
                 "region": {
                   "startLine": 1,
