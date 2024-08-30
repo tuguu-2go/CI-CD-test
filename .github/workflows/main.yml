@@ -76,10 +76,13 @@ jobs:
         id: run_pentest
         run: ./scripts/pentest.sh
 
-      - name: Upload Vulnerability Report
+      - name: Prepare Vulnerability Report
         run: ./scripts/report.sh
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload Vulnerability Report
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: results.sarif
 
       - name: Pentest failed
         if: steps.run_pentest.outputs.VULNERABILITY_FOUND == 'true'

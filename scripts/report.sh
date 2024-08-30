@@ -161,11 +161,3 @@ cat << 'EOF' > results.sarif
   ]
 }
 EOF
-
-
-curl -X POST \
-  -H "Authorization: token ${GITHUB_TOKEN}" \
-  -H "Accept: application/vnd.github.v3+json" \
-  -H "Content-Type: application/sarif+json" \
-  --data-binary @results.sarif \
-  "https://api.github.com/repos/${GITHUB_REPOSITORY}/code-scanning/sarifs"
