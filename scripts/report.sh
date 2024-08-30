@@ -22,11 +22,11 @@ cat << 'EOF' > results.sarif
               },
               "properties": {
                 "security-severity": "8.0"
-              }
+              },
               "help": {
                 "text": "The API endpoint allows access to resources belonging to other users of the same privilege level.",
                 "markdown": "# Detailed Report\n\n## Vulnerability: Unauthorized Access to other user's Dashboard\n\n### Overview\nA critical vulnerability has been discovered where user can access other user's dashboard, potentially exposing private data.\n\n### Affected File\n- **File:** `src/user/user.controller.ts`\n- **Line Number:** 9 - 14\n\n### Severity\n- **Security Severity:** High (8.0/10)\n\n###Original Payload\n```GET /app/user\nAuthorization: Bearer <valid_token_for_user_100>```\n\n### Modified Payload\n```GET /app/user\nAuthorization: Bearer <valid_token_for_user_100>```\n\n### Original Response\n```403 Forbidden```\n\n### Modified Response\n```200 OK```\n\n### Recommendation\n- Implement proper authorization checks for the /app/user endpoint. Ensure that only users with the same privilege level can access this sensitive information."
-              },
+              }
             },
             {
               "id": "API-SEC-002",

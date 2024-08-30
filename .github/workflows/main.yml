@@ -81,7 +81,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - if: steps.run_pentest.outputs.VULNERABILITY_FOUND == 'true'
+      - name: Pentest failed
+        if: steps.run_pentest.outputs.VULNERABILITY_FOUND == 'true'
         run: |
           echo -e "\033[0;31m\033[1mVulnerability detected. Failing the workflow.\033[0m"
           exit 1
