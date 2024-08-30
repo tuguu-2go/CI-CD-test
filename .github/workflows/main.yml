@@ -1,4 +1,4 @@
-name: Comprehensive CI/CD Pipeline with Security Testing
+name: Comprehensive CI/CD Pipeline with Security Testing 
 
 on:
   push:
@@ -86,7 +86,7 @@ jobs:
               {
                 "tool": {
                   "driver": {
-                    "name": "AI-Driven API Pentesting Platform",
+                    "name": "AI-Driven API Pentesting Platform ",
                     "version": "1.0.0",
                     "informationUri": "https://example.com/api-pentesting-platform",
                     "rules": [
