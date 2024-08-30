@@ -97,7 +97,7 @@ cat << 'EOF' > results.sarif
           }
         },
         {
-          "ruleId": "API-SEC-002",
+          "ruleId": "API-SEC-003",
           "level": "error",
           "message": {
             "text": "Vertical privilege escalation detected on /app/admin endpoint"
@@ -127,7 +127,7 @@ cat << 'EOF' > results.sarif
           }
         },
         {
-          "ruleId": "API-SEC-003",
+          "ruleId": "API-SEC-002",
           "level": "error",
           "message": {
             "text": "Vertical privilege escalation detected on /app/manager endpoint"
