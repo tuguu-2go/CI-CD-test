@@ -90,6 +90,7 @@ jobs:
           sarif_file: results.sarif
   
   deploy-production:
+    name: Deploy Production
     needs: [pentest-staging]
     runs-on: ubuntu-latest
     steps:
@@ -107,6 +108,7 @@ jobs:
         heroku container:release web --app your-production-app
 
   pentest-production:
+    name: Pentest Production
     needs: deploy-production
     runs-on: ubuntu-latest
     steps:
