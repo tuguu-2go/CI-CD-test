@@ -51,13 +51,11 @@ cat << 'EOF' > results.sarif
             {
               "physicalLocation": {
                 "artifactLocation": {
-                  "uri": "https://api.securebank.com/api/v1/users/101/transactions"
+                  "uri": "src/app.controller.ts"
                 },
                 "region": {
-                  "startLine": 1,
-                  "startColumn": 1,
-                  "endLine": 1,
-                  "endColumn": 1
+                  "startLine": 9,
+                  "endLine": 14
                 }
               }
             }
