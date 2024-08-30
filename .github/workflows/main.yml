@@ -130,7 +130,7 @@ jobs:
                       {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "src/user.controller.ts"
+                            "uri": "src/user/user.controller.ts"
                           },
                           "region": {
                             "startLine": 9,
@@ -160,7 +160,7 @@ jobs:
                       {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "src/admin.controller.ts"
+                            "uri": "src/admin/admin.controller.ts"
                           },
                           "region": {
                             "startLine": 9,
@@ -190,7 +190,7 @@ jobs:
                       {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "src/manager.controller.ts"
+                            "uri": "src/manager/manager.controller.ts"
                           },
                           "region": {
                             "startLine": 9,
