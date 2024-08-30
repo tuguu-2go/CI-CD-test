@@ -7,27 +7,33 @@ cat << 'EOF' > results.sarif
     {
       "tool": {
         "driver": {
-          "name": "Pentest",
-          "informationUri": "https://example.com/pentest",
+          "name": "AI-Driven API Pentesting Platform",
+          "version": "1.0.0",
+          "informationUri": "https://example.com/api-pentesting-platform",
           "rules": [
             {
-              "id": "AUTH001",
+              "id": "API-SEC-001",
+              "name": "Horizontal Privilege Escalation",
               "shortDescription": {
-                "text": "Improper Authorization Handling"
+                "text": "API endpoint vulnerable to horizontal privilege escalation"
               },
               "fullDescription": {
-                "text": "This rule checks for improper handling of authorization in the API."
-              },
-              "help": {
-                "text": "Authorization issues can lead to unauthorized access to sensitive information.",
-                "markdown": "# Detailed Security Report\n\n## Vulnerability found: Unauthorized Access to Manager's Dashboard\n\n### Overview\nA critical vulnerability has been discovered where non-managerial employees can access the manager's dashboard, potentially exposing sensitive company data and operations.\n\n### Affected File\n- **File:** `src/app.controller.ts`\n- **Line Number:** 16 - 21\n\n### Severity\n- **Security Severity:** High (9.0/10)\n\n### Impact\nUnauthorized employees could view and potentially alter confidential managerial information, leading to data breaches and operational disruptions.\n\n### Steps to Reproduce\n1. Log in as John Smith (Sales Representative, USER role).\n2. Navigate to `/app/manager` which should be restricted to MANAGER roles.\n3. Observe full access to Tom Johnson's (Regional Manager) dashboard and data.\n\n### Suggested Fix\n- Implement proper role-based access control for the `/app/manager` endpoint.\n- Ensure only users with MANAGER role can access this sensitive area.\n\n### References\n- [OWASP Authorization Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html)\n\n### Evidence\n\n- John Smith (USER role) accessed Tom Johnson's managerial dashboard containing sales forecasts and employee performance data.\n\n![Bypassed](https://i.ibb.co/zH4v6Nr/Bypassed-logo-2-1.png)\n\n### Summary Table\n| Property             | Value                |\n|----------------------|----------------------|\n| **Vulnerability ID** | AUTH001              |\n| **Severity**         | High                 |\n| **Precision**        | High                 |\n| **Tags**             | Security, Authorization |\n\n---\nFor more details on fixing this issue, consult the [full documentation](https://example.com/pentest/AUTH001)."
-              },
-              "defaultConfiguration": {
-                "level": "error"
+                "text": "The API endpoint allows access to resources belonging to other users of the same privilege level."
               },
               "properties": {
-                "tags": ["security", "authorization"],
-                "precision": "high",
+                "security-severity": "8.0"
+              }
+            },
+            {
+              "id": "API-SEC-002",
+              "name": "Vertical Privilege Escalation",
+              "shortDescription": {
+                "text": "API endpoint vulnerable to vertical privilege escalation"
+              },
+              "fullDescription": {
+                "text": "The API endpoint allows access to resources or functions intended for higher privilege levels."
+              },
+              "properties": {
                 "security-severity": "9.0"
               }
             }
@@ -36,10 +42,72 @@ cat << 'EOF' > results.sarif
       },
       "results": [
         {
-          "ruleId": "AUTH001",
+          "ruleId": "API-SEC-001",
           "level": "error",
           "message": {
-            "text": "Improper authorization handling detected in API endpoint '/app/manager' allowing unauthorized access."
+            "text": "Horizontal privilege escalation detected on /api/v1/users/101/transactions endpoint"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "https://api.securebank.com/api/v1/users/101/transactions"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1,
+                  "endLine": 1,
+                  "endColumn": 1
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "0"
+          },
+          "properties": {
+            "originalPayload": "GET /api/v1/users/101/transactions\nAuthorization: Bearer <valid_token_for_user_100>",
+            "modifiedPayload": "GET /api/v1/users/101/transactions\nAuthorization: Bearer <valid_token_for_user_100>",
+            "originalResponse": "403 Forbidden",
+            "modifiedResponse": "200 OK",
+            "recommendation": "Implement strict user-based access controls on the /api/v1/users/{id}/transactions endpoint. Ensure that users can only access their own transaction data."
+          }
+        },
+        {
+          "ruleId": "API-SEC-002",
+          "level": "error",
+          "message": {
+            "text": "Vertical privilege escalation detected on /app/admin endpoint"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/app.controller.ts"
+                },
+                "region": {
+                  "startLine": 9,
+                  "endLine": 14
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "0"
+          },
+          "properties": {
+            "originalPayload": "POST /app/admin\nAuthorization: Bearer <valid_token_for_regular_user>\nContent-Type: application/json\n\n{\"username\": \"newuser\", \"email\": \"newuser@example.com\"}",
+            "modifiedPayload": "POST /app/admin\nAuthorization: Bearer <valid_token_for_regular_user>\nContent-Type: application/json\n\n{\"username\": \"newuser\", \"email\": \"newuser@example.com\"}",
+            "originalResponse": "403 Forbidden",
+            "modifiedResponse": "201 Created",
+            "recommendation": "Enhance Role-Based Access Control (RBAC) for admin endpoints. Implement strict role checks before allowing access to administrative functions."
+          }
+        },
+        {
+          "ruleId": "API-SEC-002",
+          "level": "error",
+          "message": {
+            "text": "Vertical privilege escalation detected on /app/manager endpoint"
           },
           "locations": [
             {
@@ -49,12 +117,21 @@ cat << 'EOF' > results.sarif
                 },
                 "region": {
                   "startLine": 16,
-                  "startColumn": 1,
                   "endLine": 21
                 }
               }
             }
-          ]
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "0"
+          },
+          "properties": {
+            "originalPayload": "GET /app/manager\nAuthorization: Bearer <valid_token_for_regular_user>",
+            "modifiedPayload": "GET /app/manager\nAuthorization: Bearer <valid_token_for_regular_user>",
+            "originalResponse": "403 Forbidden",
+            "modifiedResponse": "200 OK",
+            "recommendation": "Implement proper authorization checks for the /app/manager endpoint. Ensure that only users with admin privileges can access this sensitive information."
+          }
         }
       ]
     }
