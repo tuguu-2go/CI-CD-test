@@ -1,4 +1,4 @@
-name: Comprehensive CI/CD Pipeline with Security Testing 
+name: Comprehensive CI/CD Pipeline with Security Testing
 
 on:
   push:
@@ -124,17 +124,17 @@ jobs:
                     "ruleId": "API-SEC-001",
                     "level": "error",
                     "message": {
-                      "text": "Horizontal privilege escalation detected on /app/users endpoint"
+                      "text": "Horizontal privilege escalation detected on /app/user endpoint"
                     },
                     "locations": [
                       {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "src/app.controller.ts"
+                            "uri": "src/user.controller.ts"
                           },
                           "region": {
-                            "startLine": 30,
-                            "endLine": 35
+                            "startLine": 9,
+                            "endLine": 14
                           }
                         }
                       }
@@ -143,11 +143,11 @@ jobs:
                       "primaryLocationLineHash": "0"
                     },
                     "properties": {
-                      "originalPayload": "GET /app/users\nAuthorization: Bearer <valid_token_for_user_100>",
-                      "modifiedPayload": "GET /app/users\nAuthorization: Bearer <valid_token_for_user_100>",
+                      "originalPayload": "GET /app/user\nAuthorization: Bearer <valid_token_for_user_100>",
+                      "modifiedPayload": "GET /app/user\nAuthorization: Bearer <valid_token_for_user_100>",
                       "originalResponse": "403 Forbidden",
                       "modifiedResponse": "200 OK",
-                      "recommendation": "Implement strict user-based access controls on the /app/users endpoint. Ensure that users can only access their own data."
+                      "recommendation": "Implement strict user-based access controls on the /app/user endpoint. Ensure that users can only access their own data."
                     }
                   },
                   {
@@ -160,7 +160,7 @@ jobs:
                       {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "src/app.controller.ts"
+                            "uri": "src/admin.controller.ts"
                           },
                           "region": {
                             "startLine": 9,
@@ -190,11 +190,11 @@ jobs:
                       {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "src/app.controller.ts"
+                            "uri": "src/manager.controller.ts"
                           },
                           "region": {
-                            "startLine": 16,
-                            "endLine": 21
+                            "startLine": 9,
+                            "endLine": 14
                           }
                         }
                       }
@@ -225,47 +225,47 @@ jobs:
         run: |
           echo -e "\033[0;31m\033[1mVulnerability detected. Failing the workflow.\033[0m"
           exit 1
-  
+
   deploy-production:
     name: Deploy Production
     needs: [pentest-staging]
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    - name: Download build artifacts
-      uses: actions/download-artifact@v3
-      with:
-        name: dist
-    - name: Deploy to Production
-      env:
-        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-      run: |
-        heroku container:login
-        heroku container:push web --app your-production-app
-        heroku container:release web --app your-production-app
+      - uses: actions/checkout@v3
+      - name: Download build artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: dist
+      - name: Deploy to Production
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        run: |
+          heroku container:login
+          heroku container:push web --app your-production-app
+          heroku container:release web --app your-production-app
 
   pentest-production:
     name: Pentest Production
     needs: deploy-production
     runs-on: ubuntu-latest
     steps:
-    - name: Run AI-Driven API Pentesting on Production
-      env:
-        PENTEST_API_KEY: ${{ secrets.PENTEST_API_KEY }}
-      run: |
-        curl -X POST "https://api.aipentest.com/v1/scan" \
-          -H "Authorization: Bearer $PENTEST_API_KEY" \
-          -H "Content-Type: application/json" \
-          -d '{
-            "target_url": "https://your-production-app.herokuapp.com",
-            "scan_type": "safe",
-            "callback_url": "https://your-webhook-endpoint.com/pentest-results"
-          }'
-    - name: Wait for Pentest Results
-      run: |
-        # Implement waiting logic here
-        sleep 300
-    - name: Check Pentest Results
-      run: |
-        # Implement result checking logic here
-        echo "Checking pentest results..."
+      - name: Run AI-Driven API Pentesting on Production
+        env:
+          PENTEST_API_KEY: ${{ secrets.PENTEST_API_KEY }}
+        run: |
+          curl -X POST "https://api.aipentest.com/v1/scan" \
+            -H "Authorization: Bearer $PENTEST_API_KEY" \
+            -H "Content-Type: application/json" \
+            -d '{
+              "target_url": "https://your-production-app.herokuapp.com",
+              "scan_type": "safe",
+              "callback_url": "https://your-webhook-endpoint.com/pentest-results"
+            }'
+      - name: Wait for Pentest Results
+        run: |
+          # Implement waiting logic here
+          sleep 300
+      - name: Check Pentest Results
+        run: |
+          # Implement result checking logic here
+          echo "Checking pentest results..."
