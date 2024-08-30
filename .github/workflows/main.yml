@@ -218,15 +218,15 @@ jobs:
           }
           EOF
 
+      - uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: results.sarif
+
       - name: Vulnerability found
         if: steps.run_pentest.outputs.VULNERABILITY_FOUND == 'true'
         run: |
           echo -e "\033[0;31m\033[1mVulnerability detected. Failing the workflow.\033[0m"
           exit 1
-
-      - uses: github/codeql-action/upload-sarif@v3
-        with:
-          sarif_file: results.sarif
   
   deploy-production:
     name: Deploy Production
