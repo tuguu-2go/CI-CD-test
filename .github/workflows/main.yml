@@ -94,7 +94,7 @@ jobs:
                         "id": "API-SEC-001",
                         "name": "Horizontal Privilege Escalation",
                         "shortDescription": {
-                          "text": "API endpoint vulnerable to horizontal privilege escalation"
+                          "text": "API endpoint vulnerable to horizontal privilege escalation "
                         },
                         "fullDescription": {
                           "text": "The API endpoint allows access to resources belonging to other users of the same privilege level."
@@ -107,7 +107,7 @@ jobs:
                         "id": "API-SEC-002",
                         "name": "Vertical Privilege Escalation",
                         "shortDescription": {
-                          "text": "API endpoint vulnerable to vertical privilege escalation"
+                          "text": "API endpoint vulnerable to vertical privilege escalation "
                         },
                         "fullDescription": {
                           "text": "The API endpoint allows access to resources or functions intended for higher privilege levels."
